@@ -1,4 +1,4 @@
-package sBeans;
+package com.sBeans;
 
 import java.util.ArrayList;
 import java.util.List;
