@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:jaxrs="http://cxf.apache.org/jaxrs" xmlns:cxf="http://cxf.apache.org/core"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+						http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+						http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+						http://www.springframework.org/schema/util  http://www.springframework.org/schema/util/spring-util.xsd
+						http://www.springframework.org/schema/task  http://www.springframework.org/schema/task/spring-task-3.1.xsd" default-lazy-init="false">
+
+	<context:component-scan base-package="cn"/>
+	<import resource="datasource.xml" />
+
+	<bean id="ssfb" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="datasource-sMonster" />
+		<property name="configLocation" value="mybatis-config.xml" />
+	</bean>
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="sqlSessionFactoryBeanName" value="ssfb" />
+		<property name="basePackage" value="cn.sDao" />
+	</bean>
+
+
+	<!-- 配置注解的处理器映射器 -->
+	<bean
+		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"></bean>
+
+	<!-- 处理器适配器 -->
+	<bean
+		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"></bean>
+
+	<!-- 配置视图解析器 返回逻辑视图：index 视图解析器解析出真正的物理视图：前缀+逻辑视图+后缀==prefix+逻辑视图+suffix==/WEB-INF/jsps/index.jsp -->
+
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/"></property>
+		<property name="suffix" value=".html"></property>
+	</bean>
+ <context:annotation-config />  
+	<!-- <bean name="taskJob" class="cn.StockService.TaskJob"/>
+	 <task:scheduled-tasks>   
+        <task:scheduled ref="taskJob" method="job1" cron="0 * * * * ?"/>   
+</task:scheduled-tasks>   -->
+<task:annotation-driven scheduler="qbScheduler" mode="proxy"/>  
+    <task:scheduler id="qbScheduler" pool-size="10"/>  
+	
+	<task:annotation-driven />
+</beans>
