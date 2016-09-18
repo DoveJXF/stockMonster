@@ -1,7 +1,12 @@
-package com.sBeans;
+package cn.sBeans;
 
-public class secondData {
+import java.util.ArrayList;
+import java.util.List;
+
+public class SecondData {
 	private String data,dapandata,gopicture;
+	private List<ThirdData> thirdData = new ArrayList<ThirdData>();
+	
 
 	public String getData() {
 		return data;
@@ -25,6 +30,14 @@ public class secondData {
 
 	public void setGopicture(String gopicture) {
 		this.gopicture = gopicture;
+	}
+
+	public List<ThirdData> getThirdData() {
+		return thirdData;
+	}
+
+	public void setThirdData(List<ThirdData> thirdData) {
+		this.thirdData = thirdData;
 	}
 
 }

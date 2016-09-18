@@ -1,7 +1,8 @@
-package com.sController;
+package cn.sController;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.sql.Connection;
@@ -15,17 +16,23 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Test;
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import cn.model.User;
+import cn.sBeans.Group;
+import cn.sBeans.FirstData;
+import cn.sBeans.SecondData;
+import cn.sBeans.ThirdData;
+import cn.sDao.StockMapper;
 
 import com.alibaba.fastjson.JSON;
-import com.sBeans.Group;
-import com.sBeans.User;
-import com.sBeans.firstData;
-import com.sBeans.secondData;
-import com.sBeans.thirdData;
 
-public class test {
-	@Test
+public class Test {
+	@org.junit.Test
 	public void test1() {
 		Group group = new Group();
 		group.setId(0L);
@@ -33,11 +40,11 @@ public class test {
 
 		User guestUser = new User();
 		guestUser.setId(2L);
-		guestUser.setName("guest");
+		guestUser.setUserName("guest");
 
 		User rootUser = new User();
 		rootUser.setId(3L);
-		rootUser.setName("root");
+		rootUser.setUserName("root");
 
 		group.getUsers().add(guestUser);
 		group.getUsers().add(rootUser);
@@ -49,16 +56,16 @@ public class test {
 		Group group2 = JSON.parseObject(jsonString, Group.class);
 		System.out.println(group2.getUsers().get(0).getName());
 	}
-	@Test
+	@org.junit.Test
 	public void test2() {
 				
 		
 				String abc = sendGet("http://web.juhe.cn:8080/finance/stock/hs",
 						"key=982b0e99283fb423068d122ec1d7a066&dtype=json&gid=sh600234");
 				String cba = sendGet("http://qt.gtimg.cn/q=sz000858 ", "");
-				firstData jst = JSON.parseObject(abc,firstData.class);
-				List<secondData> dda = JSON.parseArray(jst.getResult(), secondData.class);
-				thirdData ddd = JSON.parseObject(dda.get(0).getData(),thirdData.class);
+				FirstData jst = JSON.parseObject(abc,FirstData.class);
+				List<SecondData> dda = JSON.parseArray(jst.getResult(), SecondData.class);
+				ThirdData ddd = JSON.parseObject(dda.get(0).getData(),ThirdData.class);
 				
 				
 				System.out.println(cba);
@@ -122,6 +129,66 @@ public class test {
 		}
 		return result;
 	}
+	
+	@org.junit.Test
+	public void test3() {
+		// TODO Auto-generated method stub
+		Connection conn = null; // 数据库连接
+		Statement stmt = null; // 数据库表达式
+		ResultSet rs = null; // 结果集
+		try {
+			/* 加载驱动 */
+			Class.forName("com.mysql.jdbc.Driver");
+			/* 连接到数据库 */
+			conn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/class?", "root", "");
+			/* 获取表达式 */
+			stmt = (Statement) conn.createStatement();
+			/* 插入数据 */
+			//stmt.executeUpdate("insert into student (name,age) values ('test',20)");
+			/* 执行SQL */
+			rs = stmt.executeQuery("select * from student");
+			/* 查看里面的数据 */
+			while (rs.next()) {
+				System.out.println("姓名=" + rs.getString("name"));
+				System.out.println("年龄=" + rs.getString("age"));
+			}
+		} catch (ClassNotFoundException ex) {
+			ex.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@org.junit.Test
+	public void test5(){
+		 SqlSessionFactory sqlSessionFactory;
+		    Reader reader; 
+
+		        try{
+		            reader    = Resources.getResourceAsReader("Configuration.xml");
+		            sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
+		        }catch(Exception e){
+		            e.printStackTrace();
+		        }
+
+		    SqlSessionFactory sqlSessionFactory1 = null;
+		    
+		        SqlSession session = sqlSessionFactory1.openSession();
+		        try {
+		        User user = (User) session.selectOne("cn.sDao.sMapper.deleteAsset");
+		        System.out.println(user.getName());
+		        } finally {
+		        session.close();
+		        }
+	}
+	private void getSession() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
 			
 //				    public void handleRequest(HttpServletRequest req, HttpServletResponse resp) throws Exception {  
 //				       //1、收集参数、验证参数  

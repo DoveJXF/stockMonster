@@ -1,6 +1,6 @@
-package com.sBeans;
+package cn.sBeans;
 
-public class thirdData {
+public class ThirdData {
 	//data
 	private String todayMax;
 	private String todayStartPri;

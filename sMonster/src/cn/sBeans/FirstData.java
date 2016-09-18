@@ -1,8 +1,15 @@
-package com.sBeans;
+package cn.sBeans;
 
-public class firstData {
+import java.util.ArrayList;
+import java.util.List;
+
+public class FirstData {
 	private String reason,result;
 	private int error_code,resultcode;
+	private List<SecondData> secondData = new ArrayList<SecondData>();
+	
+	
+	
 	public int getError_code() {
 		return error_code;
 	}
@@ -26,5 +33,11 @@ public class firstData {
 	}
 	public void setResultcode(int resultcode) {
 		this.resultcode = resultcode;
+	}
+	public List<SecondData> getSecondData() {
+		return secondData;
+	}
+	public void setSecondData(List<SecondData> secondData) {
+		this.secondData = secondData;
 	}
 }

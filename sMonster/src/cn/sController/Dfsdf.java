@@ -1,4 +1,4 @@
-package com.sController;
+package cn.sController;
 
 
 import org.springframework.stereotype.Controller;
@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller//<bean id="userController" class="userControlelr">
 @RequestMapping("/user")
-public class dfsdf {
+public class Dfsdf {
 	@RequestMapping("hello")
-	public String hello(){
+	public String hello(Model model){
+		model.addAttribute("hello", "admin");
 		return "index";
 	}
 	@RequestMapping(value="/pg.do",method={RequestMethod.POST,RequestMethod.GET})
