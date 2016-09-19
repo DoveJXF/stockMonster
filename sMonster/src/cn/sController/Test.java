@@ -22,11 +22,11 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import cn.model.User;
 import cn.sBeans.Group;
 import cn.sBeans.FirstData;
 import cn.sBeans.SecondData;
 import cn.sBeans.ThirdData;
+import cn.sBeans.User;
 import cn.sDao.StockMapper;
 
 import com.alibaba.fastjson.JSON;
@@ -39,11 +39,11 @@ public class Test {
 		group.setName("admin");
 
 		User guestUser = new User();
-		guestUser.setId(2L);
+		guestUser.setId(2);
 		guestUser.setUserName("guest");
 
 		User rootUser = new User();
-		rootUser.setId(3L);
+		rootUser.setId(3);
 		rootUser.setUserName("root");
 
 		group.getUsers().add(guestUser);
@@ -54,7 +54,7 @@ public class Test {
 		System.out.println(jsonString);
 		
 		Group group2 = JSON.parseObject(jsonString, Group.class);
-		System.out.println(group2.getUsers().get(0).getName());
+		System.out.println(group2.getUsers().get(0).getUserName());
 	}
 	@org.junit.Test
 	public void test2() {
@@ -178,7 +178,7 @@ public class Test {
 		        SqlSession session = sqlSessionFactory1.openSession();
 		        try {
 		        User user = (User) session.selectOne("cn.sDao.sMapper.deleteAsset");
-		        System.out.println(user.getName());
+		        System.out.println(user.getUserName());
 		        } finally {
 		        session.close();
 		        }
