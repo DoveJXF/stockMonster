@@ -1,8 +1,13 @@
 package cn.sController;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.Reader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.sql.Connection;
@@ -30,6 +35,7 @@ import cn.sBeans.User;
 import cn.sDao.StockMapper;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 
 public class Test {
 	@org.junit.Test
@@ -183,12 +189,55 @@ public class Test {
 		        session.close();
 		        }
 	}
-	private void getSession() {
-		// TODO Auto-generated method stub
-		
-	}
 	
-	
+	@org.junit.Test
+	public void test232(){
+		try {
+			final String ADD_URL = "http://10.27.134.82:8080/solrServer/index/update"; 
+			URL url = new URL(ADD_URL); 
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection(); 
+            connection.setDoOutput(true); 
+            connection.setDoInput(true); 
+            connection.setRequestMethod("POST"); 
+            connection.setUseCaches(false); 
+            connection.setInstanceFollowRedirects(true); 
+            connection.setRequestProperty("Content-Type", 
+                    "application/json"); 
+            connection.connect(); 
+
+            //POST请求 
+            OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream()); 
+            JSONObject obj = new JSONObject(); 
+            obj.put("id", "fd65a542b36d4c47a094f3c0baf1e7a6"); 
+            obj.put("type", "add"); 
+            obj.put("indexName", "testasset6"); 
+            
+            System.out.println(obj.toString());
+
+            out.write(obj.toString()); 
+            out.flush(); 
+            out.close(); 
+             
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String lines;
+            StringBuffer sbf = new StringBuffer();
+             while ((lines = reader.readLine()) != null) {
+                    lines = new String(lines.getBytes(), "utf-8");
+                    sbf.append(lines);
+                }
+                System.out.println(sbf);
+                reader.close();
+                // 断开连接
+                connection.disconnect();
+        } catch (MalformedURLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+}
 			
 //				    public void handleRequest(HttpServletRequest req, HttpServletResponse resp) throws Exception {  
 //				       //1、收集参数、验证参数  
@@ -202,4 +251,3 @@ public class Test {
 //				       mv.setViewName("hello");  
 //				       return mv;  
 //				    }  
-}

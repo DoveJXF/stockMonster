@@ -12,7 +12,7 @@ import cn.sBeans.User;
 
 
 
-public class tet1 {
+public class sqltest {
     private static SqlSessionFactory sqlSessionFactory;
     private static Reader reader; 
 
