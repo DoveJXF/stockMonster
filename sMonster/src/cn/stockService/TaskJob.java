@@ -27,10 +27,10 @@ public class TaskJob {
 				SecondData.class);
 		ThirdData ddd = JSON.parseObject(dda.get(0).getData(), ThirdData.class);
 
-		System.out.println(cba);
-		System.out.println(abc);
-		System.out.println(jst.getResult());
-		System.out.println(ddd.getBuyFive());
+		//System.out.println(cba);
+		//System.out.println(abc);
+		//System.out.println(jst.getResult());
+		//System.out.println(ddd.getBuyFive());
 
 	}
 
