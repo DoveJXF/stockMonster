@@ -7,6 +7,7 @@ import java.net.URLConnection;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import cn.sBeans.FirstData;

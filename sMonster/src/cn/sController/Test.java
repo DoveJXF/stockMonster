@@ -16,9 +16,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -186,17 +183,11 @@ public class Test {
 		        session.close();
 		        }
 	}
-	@org.junit.Test
-	public void test56(){
-		System.out.println("dsf");
-//		int adc  = JOptionPane.showConfirmDialog(null, "dsf", "dsfd", JOptionPane.YES_NO_OPTION);
-//		System.out.println(adc);
+	private void getSession() {
+		// TODO Auto-generated method stub
 		
-		JFrame jfe = new JFrame("d第三方岁的法大赛复赛");
-		jfe.setSize(200, 300);
-		jfe.setVisible(true);
-		jfe.setAlwaysOnTop(true);
 	}
+	
 	
 			
 //				    public void handleRequest(HttpServletRequest req, HttpServletResponse resp) throws Exception {  
