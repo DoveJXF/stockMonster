@@ -3,22 +3,166 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script type="text/javascript" src="../../js/jquery-3.0.0.js"></script>
-<script type="text/javascript" src="../../js/echarts.js"></script>
-<script type="text/javascript" src="../../js/echarts-all.js"></script>
+<script type="text/javascript" src="../../echarts-2.2.7/build/dist/echarts.js"></script>
+<script type="text/javascript" src="../../echarts-2.2.7/build/dist/echarts-all.js"></script>
 <script type="text/javascript" src="../../js/jquery-3.0.0.min.js"></script>
+<script type="text/javascript" src="../../js/nova.proxy.js"></script>
 <title>Insert title here</title>
 <script type="text/javascript">
 $(function(){
 	$("#btn").click(function(){
-		alert("abc");
-	})
+		var tt = {
+			    id: "1212",
+			    userName: "fsfdsfs"
+			};
+ 	    Proxy.stockMonster(tt, function(response) {
+			alert(response);
+		}); 
+		//alert("dd");
+	});
+	
+
+ require.config({
+            paths: {
+                echarts: '../../echarts-2.2.7/build/dist'
+            }
+        });
+        
+        // 使用
+        require(
+            [
+                'echarts',
+                'echarts/chart/scatter', // 使用柱状图就加载bar模块，按需加载
+                'echarts/chart/k' // 使用柱状图就加载bar模块，按需加载
+            ],
+            function (ec) {
+                // 基于准备好的dom，初始化echarts图表
+                var myChart = ec.init(document.getElementById('main')); 
+                
+                var option = {
+                	    title : {
+                	        text: '动态数据',
+                	        subtext: '纯属虚构'
+                	    },
+                	    tooltip : {
+                	        trigger: 'axis'
+                	    },
+                	    legend: {
+                	        data:['上证指数', '随机数据']
+                	    },
+                	    toolbox: {
+                	        show : true,
+                	        feature : {
+                	            mark : {show: true},
+                	            dataView : {show: true, readOnly: false},
+                	            restore : {show: true},
+                	            saveAsImage : {show: true}
+                	        }
+                	    },
+                	    dataZoom : {
+                	        show : true,
+                	        realtime: true,
+                	        start : 50,
+                	        end : 100
+                	    },
+                	    xAxis : [
+                	        {
+                	            type : 'category',
+                	            boundaryGap : true,
+                	            data : [
+                	                "2013/1/24", "2013/1/25", "2013/1/28", "2013/1/29"
+                	            ]
+                	        },
+                	        {
+                	            type : 'value',
+                	            max:100,
+                	            scale: true
+                	        }
+                	    ],
+                	    yAxis : [
+                	        {
+                	            type : 'value',
+                	            scale:true,
+                	            splitNumber: 5,
+                	            boundaryGap: [0.05, 0.05]
+                	        },
+                	        {
+                	            type : 'value',
+                	            splitNumber: 5,
+                	            scale: true
+                	        }
+                	    ],
+                	    series : [
+                	        {
+                	            name:'上证指数',
+                	            type:'k',
+                	            data:[ // 开盘，收盘，最低，最高
+                	                [2320.26,2302.6,2287.3,2362.94],
+                	                [2120.26,2302.6,2117.3,2362.94],
+                	            ]
+                	        },
+                	        {
+                	            name:'随机数据',
+                	            type:'scatter',
+                	            xAxisIndex: 1,
+                	            yAxisIndex: 1,
+                	            symbolSize: function (value){
+                	                return Math.round(value[2] / 4);
+                	            },
+                	            data: (function () {
+                	                var d = [];
+                	                var len = 100;
+                	                while (len--) {
+                	                    d.push([
+                	                        (Math.random()*100).toFixed(2) - 0,
+                	                        (Math.random()*100).toFixed(2) - 0,
+                	                        (Math.random()*100).toFixed(2) - 0
+                	                    ]);
+                	                }
+                	                return d;
+                	            })()
+                	        }
+                	    ]
+                	};
+                	var lastIndex = 0;
+                	var len = option.series[0].data.length;
+                	timeTicket = setInterval(function (){
+                	    // 动态数据接口 addData
+                	    lastIndex += 1;
+                	   
+                	    myChart.addData([
+                	        [
+                	            0,        // 系列索引
+                	            option.series[0].data[lastIndex%len], // 新增数据
+                	            false,     // 新增数据是否从队列头部插入
+                	            true,     // 是否增加队列长度，false则自定删除原有数据，队头插入删队尾，队尾插入删队头
+                	            option.xAxis[0].data[lastIndex%len]
+                	        ],
+                	        [
+                	            1,        // 系列索引
+                	            [
+                	                (Math.random()*100).toFixed(2) - 1,
+                	                (Math.random()*100).toFixed(2) - 2,
+                	                (Math.random()*100).toFixed(2) - 3
+                	            ], // 新增数据
+                	            false,    // 新增数据是否从队列头部插入
+                	            false   // 是否增加队列长度，false则自定删除原有数据，队头插入删队尾，队尾插入删队头
+                	        ]
+                	    ]);
+                	}, 2000);
+                	//clearInterval(timeTicket);            
+                // 为echarts对象加载数据 
+                myChart.setOption(option); 
+            }
+        ); 
 })
 </script>
 </head>
 <body>
 <h1>欢迎sprigmv11c</h1>
-<button id="btn">tm</button>
+<button id="btn">停止定时任务</button>
+<button id="btn1">开始定时任务</button>
 
-
+<div id="main"style="height:500px;border:1px solid #ccc;padding:10px;"></div>  
 </body>
 </html>
