@@ -25,8 +25,6 @@
 
     <mvc:annotation-driven/>
     <context:property-placeholder />
-    <bean id = "stringHttpMessageConverter" class = "org.springframework.http.converter.StringHttpMessageConverter"/>
- 
 <!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->
 <bean class ="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
 	<!-- 配置注解的处理器映射器 -->
@@ -34,20 +32,19 @@
 		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"></bean>
 
 	<!-- 处理器适配器 -->
-	<bean
-		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"></bean>
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"></bean>
 
 	<!-- 配置视图解析器 返回逻辑视图：index 视图解析器解析出真正的物理视图：前缀+逻辑视图+后缀==prefix+逻辑视图+suffix==/WEB-INF/jsps/index.jsp -->
 
-	<bean
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views/"></property>
 		<property name="suffix" value=".html"></property>
 	</bean>
 	<context:annotation-config />
 	
-	<task:scheduled-tasks>
+	<!-- <task:scheduled-tasks>
 		<task:scheduled ref="taskJob" method="job1" cron="*/2 * * * * ?" />
-	</task:scheduled-tasks>
+		<task:scheduled ref="htmlUtil" method="getHtmlByJsoup" cron="*/2 * * * * ?" />
+	</task:scheduled-tasks> -->
 
 </beans>

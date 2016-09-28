@@ -18,19 +18,21 @@ import com.alibaba.fastjson.JSON;
 
 @Component("taskJob")  
 public class TaskJob {
-	public void job1() {
+	public static void main(String[] args) {
+	//public void job1() {
 		String abc = sendGet("http://web.juhe.cn:8080/finance/stock/hs",
 				"key=982b0e99283fb423068d122ec1d7a066&dtype=json&gid=sh600234");
-		String cba = sendGet("http://qt.gtimg.cn/q=sz000858 ", "");
+		String cba = sendGet("http://qt.gtimg.cn/q=sh600234", "");
 		FirstData jst = JSON.parseObject(abc, FirstData.class);
 		List<SecondData> dda = JSON.parseArray(jst.getResult(),
 				SecondData.class);
 		ThirdData ddd = JSON.parseObject(dda.get(0).getData(), ThirdData.class);
 
 		System.out.println(cba);
-		System.out.println(abc);
+//		System.out.println(abc);
 		System.out.println(jst.getResult());
-		System.out.println(ddd.getBuyFive());
+//		System.out.println(ddd.getBuyFive());
+		
 
 	}
 

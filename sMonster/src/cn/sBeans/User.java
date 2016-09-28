@@ -1,10 +1,14 @@
 package cn.sBeans;
 
+import java.util.Date;
+
+
 public class User {
 	private int id;
 	private String userName;
 	private String userAge;
 	private String userAddress;
+	private Date publishTime;
 
 	public int getId() {
 		return id;
@@ -36,5 +40,13 @@ public class User {
 
 	public void setUserAddress(String userAddress) {
 		this.userAddress = userAddress;
+	}
+
+	public Date getPublishTime() {
+		return publishTime;
+	}
+
+	public void setPublishTime(Date publishTime) {
+		this.publishTime = publishTime;
 	}
 }

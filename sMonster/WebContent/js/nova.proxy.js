@@ -37,22 +37,22 @@ var Proxy = {
 	 * 登录以及会话相关的三个特例Ajax， 没有使用公共的Setup
 	 * @author sunwei
 	 */
-	stockMonster: function(user, onsuccess, onerror){
+	stockMonster: function(param, callback){
 		$.ajax({
-			url		: '/sMonster/rest/user/create',
-			type	: 'POST',
-			async	: true,
-			contentType : 'application/json; charset=UTF-8',
-			dataType: 'json',
-			data	: JSON.stringify(user),
-			success	: onsuccess,
-			// override setup
-			error : onerror,
-			statusCode : {},
-			beforeSend: function() {
-				// NO-OP
-			}
-		});
+				url		: '/sMonster/rest/user/create',
+				type	: 'POST',
+				async	: true,
+				contentType : 'application/json; charset=UTF-8',
+				data 	: JSON.stringify(param),
+				success	: function(response) {
+					Proxy.__safeCallback(callback, response);
+				},
+				error : 'error',
+				statusCode : {},
+		beforeSend: function() {
+			// NO-OP
+		}
+			});
 	},
 	// 获取当前登录用户的会话Session
 	getCurrentSession: function(onsuccess, onerror) {
