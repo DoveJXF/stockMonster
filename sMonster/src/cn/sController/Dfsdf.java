@@ -17,7 +17,6 @@ import cn.sBeans.User;
 
 @Controller//<bean id="userController" class="userControlelr">
 @RequestMapping("/user")
-@Scope("prototype")
 public class Dfsdf {
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	@ResponseBody
