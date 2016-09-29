@@ -10,12 +10,7 @@
 <title>Insert title here</title>
 <script type="text/javascript">
 $(function(){
-	$("#btn1").click(function(){
- 	    Proxy.stockMonster({id:'122212',userName:'多少dsf'}, function(data) {
-			alert(data);
-		}); 
-		//alert("dd");
-	});
+	
 	$("#btn").click(function(){
 		clearInterval(timeTicket);     
 	});
@@ -123,37 +118,55 @@ $(function(){
                 	        }
                 	    ]
                 	};
-                	var lastIndex = 0;
-                	var len = option.series[0].data.length;
-                	timeTicket = setInterval(function (){
-                	    // 动态数据接口 addData
-                	    lastIndex += 1;
-                	   
-                	    myChart.addData([
-                	        [
-                	            0,        // 系列索引
-                	            option.series[0].data[lastIndex%len], // 新增数据
-                	            false,     // 新增数据是否从队列头部插入
-                	            true,     // 是否增加队列长度，false则自定删除原有数据，队头插入删队尾，队尾插入删队头
-                	            option.xAxis[0].data[lastIndex%len]
-                	        ],
-                	        [
-                	            1,        // 系列索引
-                	            [
-                	                (Math.random()*100).toFixed(2) - 1,
-                	                (Math.random()*100).toFixed(2) - 2,
-                	                (Math.random()*100).toFixed(2) - 3
-                	            ], // 新增数据
-                	            false,    // 新增数据是否从队列头部插入
-                	            false   // 是否增加队列长度，false则自定删除原有数据，队头插入删队尾，队尾插入删队头
-                	        ]
-                	    ]);
-                	}, 2000);
+                	
+                
+              
+            		
+                    	//var len = option.series[0].data.length;
+                    	  $("#btn1").click(function(){
+                    		  var lastIndex = 0;
+                    		  
+                    	timeTicket = setInterval(function (){
+                    		  Proxy.stockMonster({id:'122212',userName:'多少dsf'}, function(response) {
+                      			var datatemp = response.result;
+                      			//var tt = datatemp.split("");
+                      			//console.log (tt);
+                      			var datatt= datatemp.split(",");
+                      			var tt = [parseFloat(datatt[0]),parseFloat(datatt[1]),parseFloat(datatt[2]),parseFloat(datatt[3])];
+                    		  
+                      			var arr=[tt];//定义一个一维数组
+                    			var len = option.series[0].data.length;
+                    	    // 动态数据接口 addData
+                    	    lastIndex += 1;
+                    	   
+                    	    myChart.addData([
+                    	        [
+                    	            0,        // 系列索引
+                    	            arr, // 新增数据
+                    	            false,     // 新增数据是否从队列头部插入
+                    	            true,     // 是否增加队列长度，false则自定删除原有数据，队头插入删队尾，队尾插入删队头
+                    	            option.xAxis[0].data[lastIndex%len]
+                    	        ],
+                    	        [
+                    	            1,        // 系列索引
+                    	            [
+                    	                (Math.random()*100).toFixed(2) - 1,
+                    	                (Math.random()*100).toFixed(2) - 2,
+                    	                (Math.random()*100).toFixed(2) - 3
+                    	            ], // 新增数据
+                    	            false,    // 新增数据是否从队列头部插入
+                    	            false   // 是否增加队列长度，false则自定删除原有数据，队头插入删队尾，队尾插入删队头
+                    	        ]
+                    	    ]);
+                    		  }); 
+                    	}, 2000);
+            		
+            		//alert("dd");
+            	});
                 	//clearInterval(timeTicket);            
                 // 为echarts对象加载数据 
                 myChart.setOption(option); 
-            }
-        ); 
+            }); 
 })
 
 

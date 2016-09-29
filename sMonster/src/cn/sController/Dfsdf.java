@@ -24,7 +24,8 @@ public class Dfsdf {
 		try {
 			String moID = user.getUserName();
 			System.out.println(moID);
-			return new JsonResult<String>(moID).success();
+			String b = "2320.26,2302.6,2287.3,2362.94";
+			return new JsonResult<String>(b).success();
 		} catch (Throwable e) {
 
 			return new JsonResult<String>(null).fail(JsonResult.SERVER_ERROR,

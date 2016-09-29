@@ -42,6 +42,7 @@ var Proxy = {
 				url		: '/sMonster/rest/user/create',
 				type	: 'POST',
 				async	: true,
+				dataType: 'json',
 				contentType : 'application/json; charset=UTF-8',
 				data 	: JSON.stringify(param),
 				success	: function(response) {
