@@ -30,6 +30,7 @@ import cn.sBeans.User;
 import cn.sDao.StockMapper;
 
 import com.alibaba.fastjson.JSON;
+import com.sun.org.apache.bcel.internal.generic.GETSTATIC;
 
 public class Test {
 	@org.junit.Test
@@ -59,18 +60,20 @@ public class Test {
 	@org.junit.Test
 	public void test2() {
 				
-		
-				String abc = sendGet("http://web.juhe.cn:8080/finance/stock/hs",
+//		String sss = sendGet("http://qt.gtimg.cn/q=sz000858 ", "");
+//		System.out.println(sss);
+				String aaa = sendGet("http://web.juhe.cn:8080/finance/stock/hs",
 						"key=982b0e99283fb423068d122ec1d7a066&dtype=json&gid=sh600234");
-				String cba = sendGet("http://qt.gtimg.cn/q=sz000858 ", "");
-				FirstData jst = JSON.parseObject(abc,FirstData.class);
-				List<SecondData> dda = JSON.parseArray(jst.getResult(), SecondData.class);
-				ThirdData ddd = JSON.parseObject(dda.get(0).getData(),ThirdData.class);
+				//获得FirstData对象
+				FirstData bbb = JSON.parseObject(aaa,FirstData.class);
+				//获得result中list对象
+				List<SecondData> ccc = JSON.parseArray(bbb.getResult(), SecondData.class);
+				//获得result中data数据对应ThirdData对象
+				ThirdData ddd = JSON.parseObject(ccc.get(0).getData(),ThirdData.class);
+
+				System.out.println(aaa);
 				
-				
-				System.out.println(cba);
-				System.out.println(abc);
-				System.out.println(jst.getResult());
+				System.out.println(bbb.getResult());
 				System.out.println(ddd.getBuyFive());
 				
 				
@@ -183,9 +186,12 @@ public class Test {
 		        session.close();
 		        }
 	}
-	private void getSession() {
+	
+	@org.junit.Test
+	public void test333() {
 		// TODO Auto-generated method stub
 		
+		System.out.println(Math.random()*100);
 	}
 	
 	

@@ -27,7 +27,7 @@ $(function(){
             [
                 'echarts',
                 'echarts/chart/scatter', // 使用柱状图就加载bar模块，按需加载
-                'echarts/chart/k' // 使用柱状图就加载bar模块，按需加载
+                'echarts/chart/line' // 使用柱状图就加载bar模块，按需加载
             ],
             function (ec) {
                 // 基于准备好的dom，初始化echarts图表
@@ -42,107 +42,137 @@ $(function(){
                 	        trigger: 'axis'
                 	    },
                 	    legend: {
-                	        data:['上证指数', '随机数据']
+                	        data:['最新成交价', '预购队列']
                 	    },
                 	    toolbox: {
                 	        show : true,
                 	        feature : {
                 	            mark : {show: true},
                 	            dataView : {show: true, readOnly: false},
+                	            magicType : {show: true, type: ['line', 'bar']},
                 	            restore : {show: true},
                 	            saveAsImage : {show: true}
                 	        }
                 	    },
                 	    dataZoom : {
-                	        show : true,
-                	        realtime: true,
-                	        start : 50,
+                	        show : false,
+                	        start : 0,
                 	        end : 100
                 	    },
                 	    xAxis : [
                 	        {
                 	            type : 'category',
                 	            boundaryGap : true,
-                	            data : [
-                	                "2013/1/24", "2013/1/25", "2013/1/28", "2013/1/29"
-                	            ]
+                	            data : (function (){
+                	                var now = new Date();
+                	                var res = [];
+                	                var len = 10;
+                	                while (len--) {
+                	                    res.unshift(now.toLocaleTimeString().replace(/^\D*/,''));
+                	                    now = new Date(now - 2000);
+                	                }
+                	                return res;
+                	            })()
                 	        },
                 	        {
-                	            type : 'value',
-                	            max:100,
-                	            scale: true
+                	            type : 'category',
+                	            boundaryGap : true,
+                	            data : (function (){
+                	                var res = [];
+                	                var len = 10;
+                	                while (len--) {
+                	                    res.push(len + 1);
+                	                }
+                	                return res;
+                	            })()
                 	        }
                 	    ],
                 	    yAxis : [
                 	        {
                 	            type : 'value',
-                	            scale:true,
-                	            splitNumber: 5,
-                	            boundaryGap: [0.05, 0.05]
+                	            scale: true,
+                	            name : '价格',
+                	            boundaryGap: [0.2, 0.2]
                 	        },
                 	        {
                 	            type : 'value',
-                	            splitNumber: 5,
-                	            scale: true
+                	            scale: true,
+                	            name : '预购量',
+                	            boundaryGap: [0.2, 0.2]
                 	        }
                 	    ],
                 	    series : [
                 	        {
-                	            name:'上证指数',
-                	            type:'k',
-                	            data:[ // 开盘，收盘，最低，最高
-                	                [2320.26,2302.6,2287.3,2362.94],
-                	                [2120.26,2302.6,2117.3,2362.94],
-                	            ]
-                	        },
-                	        {
-                	            name:'随机数据',
-                	            type:'scatter',
+                	            name:'预购队列',
+                	            type:'bar',
                 	            xAxisIndex: 1,
                 	            yAxisIndex: 1,
-                	            symbolSize: function (value){
-                	                return Math.round(value[2] / 4);
-                	            },
-                	            data: (function () {
-                	                var d = [];
-                	                var len = 100;
+                	            data:(function (){
+                	                var res = [];
+                	                var len = 10;
                 	                while (len--) {
-                	                    d.push([
-                	                        (Math.random()*100).toFixed(2) - 0,
-                	                        (Math.random()*100).toFixed(2) - 0,
-                	                        (Math.random()*100).toFixed(2) - 0
-                	                    ]);
+                	                    res.push(Math.round(Math.random() * 1000));
                 	                }
-                	                return d;
+                	                return res;
+                	            })()
+                	        },
+                	        {
+                	            name:'最新成交价',
+                	            type:'line',
+                	            data:(function (){
+                	                var res = [];
+                	                var len = 10;
+                	                while (len--) {
+                	                    res.push((Math.random()*10 + 5).toFixed(1) - 0);
+                	                }
+                	                return res;
                 	            })()
                 	        }
                 	    ]
                 	};
-                	
-                
-              
+                	var lastData = 11;
+                	var axisData;
+                	//clearInterval(timeTicket);
+                	timeTicket = setInterval(function (){
+                	    lastData += Math.random() * ((Math.round(Math.random() * 10) % 2) == 0 ? 1 : -1);
+                	    lastData = lastData.toFixed(1) - 0;
+                	    axisData = (new Date()).toLocaleTimeString().replace(/^\D*/,'');
+                	    
+                	    // 动态数据接口 addData
+                	    myChart.addData([
+                	        [
+                	            0,        // 系列索引
+                	            Math.round(Math.random() * 1000), // 新增数据
+                	            true,     // 新增数据是否从队列头部插入
+                	            true    // 是否增加队列长度，false则自定删除原有数据，队头插入删队尾，队尾插入删队头
+                	        ],
+                	        [
+                	            1,        // 系列索引
+                	            lastData, // 新增数据
+                	            false,    // 新增数据是否从队列头部插入
+                	            true,    // 是否增加队列长度，false则自定删除原有数据，队头插入删队尾，队尾插入删队头
+                	            axisData  // 坐标轴标签
+                	        ]
+                	    ]);
+                	}, 2100);
+                	                    
+                	                    
+                	                    
+                	                               
             		
-                    	//var len = option.series[0].data.length;
-                    	  $("#btn1").click(function(){
+                    	/*   $("#btn1").click(function(){
                     		  var lastIndex = 0;
                     		  
                     	timeTicket = setInterval(function (){
                     		  Proxy.stockMonster({id:'122212',userName:'多少dsf'}, function(response) {
-                      			var datatemp = response.result;
-                      			//var tt = datatemp.split("");
-                      			//console.log (tt);
-                      			var datatt= datatemp.split(",");
-                      			var tt = [parseFloat(datatt[0]),parseFloat(datatt[1]),parseFloat(datatt[2]),parseFloat(datatt[3])];
-                    		  
-                      			var arr=[tt];//定义一个一维数组
-                    			var len = option.series[0].data.length;
+                      			var data = response.result;
                     	    // 动态数据接口 addData
                     	    lastIndex += 1;
                     	   
                     	    myChart.addData([
                     	        [
-                    	            0,        // 系列索引
-                    	            arr, // 新增数据
+                    	            0,
+                    	            data,
                     	            false,     // 新增数据是否从队列头部插入
                     	            true,     // 是否增加队列长度，false则自定删除原有数据，队头插入删队尾，队尾插入删队头
                     	            option.xAxis[0].data[lastIndex%len]
@@ -159,10 +189,9 @@ $(function(){
                     	        ]
                     	    ]);
                     		  }); 
-                    	}, 2000);
+                    	}, 2000); */
             		
             		//alert("dd");
-            	});
                 	//clearInterval(timeTicket);            
                 // 为echarts对象加载数据 
                 myChart.setOption(option); 

@@ -1,12 +1,11 @@
 package cn.sBeans;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class FirstData {
-	private String reason,result;
-	private int error_code,resultcode;
-	private List<SecondData> secondData = new ArrayList<SecondData>();
+	private String reason;
+	private String result;
+	private int error_code;
+	private int resultcode;
 	
 	
 	
@@ -33,11 +32,5 @@ public class FirstData {
 	}
 	public void setResultcode(int resultcode) {
 		this.resultcode = resultcode;
-	}
-	public List<SecondData> getSecondData() {
-		return secondData;
-	}
-	public void setSecondData(List<SecondData> secondData) {
-		this.secondData = secondData;
 	}
 }

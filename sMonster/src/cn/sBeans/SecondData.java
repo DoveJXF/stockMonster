@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SecondData {
-	private String data,dapandata,gopicture;
-	private List<ThirdData> thirdData = new ArrayList<ThirdData>();
+	private String data;
+	private String dapandata;
+	private String gopicture;
 	
 
 	public String getData() {
@@ -30,14 +31,6 @@ public class SecondData {
 
 	public void setGopicture(String gopicture) {
 		this.gopicture = gopicture;
-	}
-
-	public List<ThirdData> getThirdData() {
-		return thirdData;
-	}
-
-	public void setThirdData(List<ThirdData> thirdData) {
-		this.thirdData = thirdData;
 	}
 
 }
